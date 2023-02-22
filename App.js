@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, TouchableOpacity , Image, StyleSheet } from 'react-native';
+import Slider from '@react-native-community/slider';
 
 
 export default class App extends Component{
@@ -9,6 +10,7 @@ export default class App extends Component{
     this.state = {
       textFrase: 'Frase',
       img: require('./assets/biscoito.png'),
+      valor: 0
     }
 
     this.frases = [
@@ -41,6 +43,17 @@ export default class App extends Component{
             <Text styles={styles.btnTexto}>Quebrar biscoito</Text>
           </View>
         </TouchableOpacity>
+        <Slider
+          style={{width: 200, height: 40}}
+          minimumValue={0}
+          maximumValue={100}
+          minimumTrackTintColor="#dd7b22"
+          onValueChange={(valor) => this.setState({valor})}
+          value={this.state.valor}
+        />
+        <Text>
+          {this.state.valor.toFixed(0)}
+        </Text>
       </View>
     )
   }

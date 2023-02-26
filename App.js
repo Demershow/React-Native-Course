@@ -1,127 +1,108 @@
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { React, useState } from 'react';
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  FlatList
-} from 'react-native';
 
-import Lista from './src/Lista';
+export default function App() {
+  const[valor1, setValor1] = useState();
+  const[valor2, setValor2] = useState();
+  const[resultado, setResultado] = useState();
+  const[resposta, setResposta] = useState();
 
-class App extends Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      feed: [
-        {
-          id: '1', 
-          nome: 'Lucas Silva', 
-          descricao: 'Mais um dia de muitos bugs :)', 
-          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil1.png', 
-          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto1.png',  
-          likeada: false, 
-          likers: 0
-         },
-        {
-          id: '2', 
-          nome: 'Matheus', 
-          descricao: 'Isso sim é ser raiz!!!!!', 
-          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil2.png', 
-          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto2.png', 
-          likeada: false, 
-          likers: 0
-        },
-        {
-          id: '3', 
-          nome: 'Jose Augusto', 
-          descricao: 'Bora trabalhar Haha', 
-          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil3.png', 
-          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto3.png',  
-          likeada: false, 
-          likers: 3
-        },
-        {
-          id: '4', 
-          nome: 'Gustavo Henrique', 
-          descricao: 'Isso sim que é TI!', 
-          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil1.png', 
-          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto4.png', 
-          likeada: false, 
-          likers: 1
-        },
-        {
-          id: '5', 
-          nome: 'Guilherme', 
-          descricao: 'Boa tarde galera do insta...', 
-          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil2.png', 
-          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto5.png',
-          likeada: false, 
-          likers: 32
-        }
-      ]
-     };
- 
-  }
+  function dividir(){
+   let diferenca = (parseFloat(valor1) / parseFloat(valor2));
+   setResultado (diferenca.toFixed(2));
 
-  render() {
-    return (
-      <View style={styles.container}>
-      
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Image
-          source={require('./src/img/logo.png')}
-          style={styles.logo}
-          />
-        </TouchableOpacity>
+    if(diferenca <= 0.70){
+       setResposta("Abasteça com etanol");
+    }else{
+      setResposta("Abasteça com gasolina");
+    }
+  } 
 
-        <TouchableOpacity>
-          <Image
-          source={require('./src/img/send.png')}
-          style={styles.send}
-          />
+  //faltando a mascara
+  //uhasuhsabuhdsaubhdsauhbdasubhdasubhdasubhad
+  
+  return (
+    <View style={styles.container}>
+      <Text style={styles.texto}>Etanol, ou gasolina?</Text>
+      <View style={styles.bloco}>
+        <Text style={styles.textoBloco}>Valor do litro do etanol</Text>
+        <TextInput 
+          maxLength={4}
+          style={styles.input}
+          keyboardType="numeric"
+          value={valor1}
+          onChangeText={(texto)=>setValor1(texto)}
+        />
+      </View>
+      <View style={styles.bloco}>
+        <Text style={styles.textoBloco}>Valor do litro da gasolina</Text>
+        <TextInput 
+          maxLength={4}
+          style={styles.input}
+          keyboardType="numeric"
+          value={valor2}
+          onChangeText={(texto)=>setValor2(texto)}
+        />
+      </View>
+      <View style={styles.bloco}>
+        <TouchableOpacity 
+          style={styles.botao}
+          onPress={dividir}
+          >
+            <Text style={styles.textoBotao}>Dividir</Text>
         </TouchableOpacity>
       </View>
-
-      <FlatList
-      showsHorizontalScrollIndicator={false}
-      keyExtractor={(item) => item.id}
-      data={this.state.feed}
-      renderItem={ ({item}) => <Lista data={item} /> }
-      />
-
+      <View style={styles.textoResultado}>
+            <Text style={styles.textoBloco}>Resultado: {resultado} {resposta}</Text>
       </View>
-    );
-  }
+    </View>
+  );
 }
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
-  },
-  header:{
-    height: 55,
     backgroundColor: '#FFF',
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 5,
-    borderBottomWidth: 0.2,
-    shadowColor: '#000',
-    elevation: 1,
+    justifyContent: 'center',
   },
-  send:{
-    width: 23,
-    height: 23
+  textoBloco:{
+    fontSize:25,
+    color: '#39b1b8',
+  },
+  texto:{
+    color:'#000',
+    fontSize:30
+  },
+  input:{
+    borderColor:'#000',
+    borderWidth:2,
+    fontSize:30,
+    width:'80%',
+    padding: 10
+  },
+  bloco:{
+    width:'100%',
+    alignItems:'center',
+    marginTop:30
+  },
+  textoResultado:{
+    marginLeft:`03%`,
+    width:'100%',
+    alignItems:'center',
+    marginTop:30
+  },
+  botao:{
+    backgroundColor:'#39b1b8',
+    width:'80%',
+    textAlign:'center',
+    borderRadius: 5,
+    padding: 10
+  },
+  textoBotao:{
+    color:"#fff",
+    fontSize:30
   }
-
 });
-
-export default App;
